@@ -5,13 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-6.times do
-  Video.create!(title: 'Monk', description: 'A movie', small_cover_url: '/tmp/monk.jpg', large_cover_url: '/tmp/monk_large.jpg')
+3.times do
+  Video.create!(title: 'Black and White', description: 'Black and White', small_cover_url: '/tmp/the_fierce_wife.jpg', large_cover_url: '/tmp/the_fierce_wife_large.jpg', category_id: 1)
 end
-
-
-           
-
-Category.create(name: 'TV Commedies')
-Category.create(name: 'TV Dramas')
-Category.create(name: 'Reality TV')
