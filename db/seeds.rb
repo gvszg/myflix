@@ -5,4 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Video.create(title: 'Monk', description: 'A movie', small_cover_url: 'monk.jpg', large_cover_url: '/tmp/monk_large.jpg')
+3.times do
+  Video.create(title: 'Monk', description: 'A movie', small_cover_url: 'monk', large_cover_url: 'monk_large')
+end
+
+
+Category.create(name: 'TV Commedies')
+Category.create(name: 'TV Dramas')
+Category.create(name: 'Reality TV')
