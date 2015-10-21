@@ -14,4 +14,14 @@ describe Video do
 
     expect(black_white.category).to eq(tv)
   end
+
+  it "does not save a video without a title" do
+    video = Video.create(description: "The Fierce Wife")
+    expect(Video.count).to eq(0)
+  end
+
+  it "does not save a video without a description" do
+    video = Video.create(title: "The Fierce Wife")
+    expect(Video.count).to eq(0)
+  end
 end
