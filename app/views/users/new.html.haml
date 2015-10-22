@@ -1,22 +1,23 @@
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
-      %form.form-horizontal
+      = form_for @user, html: { class: "form-horizontal"} do |f|
         %header
           %h1 Register
         %fieldset
+          = render 'shared/error', obj: @user
           .form-group
-            %label.control-label.col-sm-2 Email Address
+            = f.label :email, "Email Address", class: "control-label col-sm-2 "
             .col-sm-6
-              %input.form-control(type="email")
+              = f.email_field :email, class: "form-control"
           .form-group
-            %label.control-label.col-sm-2 Password
+            = f.label :password, "Password", class: "control-label col-sm-2 "
             .col-sm-6
-              %input.form-control(type="password")
+              = f.password_field :password, class: "form-control"
           .form-group
-            %label.control-label.col-sm-2 Full Name
+            = f.label :username, "Full Name", class: "control-label col-sm-2 "
             .col-sm-6
-              %input.form-control(type="text")
+              = f.text_field :username, class: "form-control"
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
-            %input(type="submit" value="Sign Up" class="btn btn-default")
+            = f.submit("Sign Up", class: "btn btn-default")
