@@ -1,6 +1,6 @@
 %article.video_category
   %header
-    %h3 TV Commedies
+    %h3= @category.name
     %hr
   .videos.row
     - @category.videos.each do |video|
