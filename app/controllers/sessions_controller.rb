@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:warning] = "Welcome back, #{user.username}!"
       redirect_to home_path
     else
-      flash.now[:danger] = "There's something wrong with your username or password!"
+      flash.now[:danger] = "Invalid email or password!"
       render :new
     end
   end
