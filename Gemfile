@@ -10,6 +10,8 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
+gem 'fabrication'
+gem 'faker'
 
 group :development do
   gem 'thin'
