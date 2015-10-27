@@ -1,5 +1,6 @@
 class Video < ActiveRecord::Base
   belongs_to :category, dependent: :destroy
+  has_many :reviews
 
   validates_presence_of :title, :description
 
