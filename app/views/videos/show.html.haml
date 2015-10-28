@@ -21,7 +21,7 @@
             = f.label :rating, "Rate this video"
             .row
               .col-sm-3
-                = f.select :rating, options_for_select([5, 4, 3, 2, 1].map {|number| [pluralize(number, "Star")]}), class: "form-control"                
+                = f.select :rating, render_options_for_select, class: "form-control"                
           .form-group
             = f.label :content, "Write Review"
             .row
