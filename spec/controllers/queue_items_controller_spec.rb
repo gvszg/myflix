@@ -3,10 +3,10 @@ require 'spec_helper'
 describe QueueItemsController do 
   describe "Get index" do
     it "sets @queue_items to queue items of logged in user" do
-      gin = Fabricate(:user)
-      session[:user_id] = gin.id
-      queue_item1 = Fabricate(:queue_item, user: gin)
-      queue_item2 = Fabricate(:queue_item, user: gin) 
+      dani = Fabricate(:user)
+      session[:user_id] = dani.id
+      queue_item1 = Fabricate(:queue_item, user: dani)
+      queue_item2 = Fabricate(:queue_item, user: dani) 
       get :index
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
@@ -50,20 +50,20 @@ describe QueueItemsController do
     it "puts the video as the last one in the queue" do
       user = Fabricate(:user)
       session[:user_id] = user.id
-      king = Fabricate(:video)
-      Fabricate(:queue_item, video: king, user: user)
-      joker = Fabricate(:video)
-      post :create, video_id: joker.id
-      joker_queue_item = QueueItem.find_by(video_id: joker.id, user_id: user.id)
-      expect(joker_queue_item.position).to eq(2)
+      film_1 = Fabricate(:video)
+      Fabricate(:queue_item, video: film_1, user: user)
+      film_2 = Fabricate(:video)
+      post :create, video_id: film_2.id
+      film_2_queue_item = QueueItem.find_by(video_id: film_2.id, user_id: user.id)
+      expect(film_2_queue_item.position).to eq(2)
     end
 
     it "does not add video in queue if the video already in the queue" do
       user = Fabricate(:user)
       session[:user_id] = user.id
-      king = Fabricate(:video)
-      Fabricate(:queue_item, video: king, user: user)
-      post :create, video_id: king.id
+      film_1 = Fabricate(:video)
+      Fabricate(:queue_item, video: film_1, user: user)
+      post :create, video_id: film_1.id
       expect(user.queue_items.count).to eq(1)
     end
 
@@ -75,30 +75,28 @@ describe QueueItemsController do
 
   describe "Delete destroy" do
     it "redirects to my queue page" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
-      queue_item = Fabricate(:queue_item, user: user)
+      dani = Fabricate(:user)
+      session[:user_id] = dani.id
+      queue_item = Fabricate(:queue_item, user: dani)
       delete :destroy, id: queue_item.id
       expect(response).to redirect_to my_queue_path
     end
 
     it "deletes the queue item" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
-      queue_item1 = Fabricate(:queue_item, user: user)
-      queue_item2 = Fabricate(:queue_item, user: user)
-      delete :destroy, id: queue_item1.id
-      expect(user.queue_items.count).to eq(1)
+      dani = Fabricate(:user)
+      session[:user_id] = dani.id
+      queue_item = Fabricate(:queue_item, user: dani)
+      delete :destroy, id: queue_item.id
+      expect(dani.queue_items.count).to eq(0)
     end
 
     it "does not delete the queue item if the queue item isn't in current user's queue" do
-      user = Fabricate(:user)
-      someone = Fabricate(:user)
-      session[:user_id] = user.id
-      queue_item1 = Fabricate(:queue_item, user: someone)
-      queue_item2 = Fabricate(:queue_item, user: user)
-      delete :destroy, id: queue_item1.id
-      expect(QueueItem.count).to eq(2)
+      dani = Fabricate(:user)
+      vinson = Fabricate(:user)
+      session[:user_id] = dani.id
+      queue_item = Fabricate(:queue_item, user: vinson)
+      delete :destroy, id: queue_item.id
+      expect(QueueItem.count).to eq(1)
     end
 
     it "redirects to sign in page for unauthenticated users" do

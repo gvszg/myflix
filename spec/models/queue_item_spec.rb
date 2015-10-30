@@ -6,9 +6,9 @@ describe QueueItem do
 
   describe "#video_title" do
     it "returns the title of associated video" do
-      hi = Fabricate(:video, title: "Hi")
-      queue_item = Fabricate(:queue_item, video: hi)
-      expect(queue_item.video_title).to eq("Hi")
+      wife = Fabricate(:video, title: "The Fierce Wife ")
+      queue_item = Fabricate(:queue_item, video: wife)
+      expect(queue_item.video_title).to eq("The Fierce Wife ")
     end
   end
 
@@ -31,8 +31,8 @@ describe QueueItem do
 
   describe "#category_name" do
     it "returns the category's name of video" do
-      movie = Fabricate(:category, name: "Movie")
-      video = Fabricate(:video, category: movie)
+      category = Fabricate(:category, name: "Movie")
+      video = Fabricate(:video, category: category)
       queue_item = Fabricate(:queue_item, video: video)
       expect(queue_item.category_name).to eq("Movie")  
     end
@@ -40,10 +40,10 @@ describe QueueItem do
 
   describe "#category" do
     it "returns the category of the video" do
-      movie = Fabricate(:category, name: "Movie")
-      video = Fabricate(:video, category: movie)
+      category = Fabricate(:category, name: "Movie")
+      video = Fabricate(:video, category: category)
       queue_item = Fabricate(:queue_item, video: video)
-      expect(queue_item.category).to eq(movie)
+      expect(queue_item.category).to eq(category)
     end
   end
 end

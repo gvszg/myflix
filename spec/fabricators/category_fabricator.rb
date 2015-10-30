@@ -1,3 +1,2 @@
 Fabricator(:category) do
-  
 end
