@@ -90,6 +90,15 @@ describe QueueItemsController do
       expect(dani.queue_items.count).to eq(0)
     end
 
+    it "normalizes the remaining queue items" do
+      dani = Fabricate(:user)
+      session[:user_id] = dani.id
+      queue_item1 = Fabricate(:queue_item, user: dani, position: 1)
+      queue_item2 = Fabricate(:queue_item, user: dani, position: 2)
+      delete :destroy, id: queue_item1.id
+      expect(QueueItem.first.position).to eq(1)
+    end
+
     it "does not delete the queue item if the queue item isn't in current user's queue" do
       dani = Fabricate(:user)
       vinson = Fabricate(:user)
@@ -165,7 +174,23 @@ describe QueueItemsController do
       end
     end
 
-    context "with unauthenticated users"
-    context "with queue items that do not belong to current user"
+    context "with unauthenticated users" do
+      it "redirects to sign in page" do
+        post :update_queue, queue_items: [{id: 2, position: 3}, {id: 4, position: 2}]
+        expect(response).to redirect_to sign_in_path
+      end
+    end
+
+    context "with queue items that do not belong to current user" do
+      it "does not change queue items" do
+        joe = Fabricate(:user)
+        session[:user_id] = joe.id
+        sam = Fabricate(:user)
+        queue_item1 = Fabricate(:queue_item, user: sam, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: joe, position: 2)
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 5}]
+        expect(queue_item1.reload.position).to eq(1)
+      end
+    end
   end
 end

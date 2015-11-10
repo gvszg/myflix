@@ -14,6 +14,7 @@ class QueueItemsController < ApplicationController
   def destroy
     queue_item = QueueItem.find(params[:id])
     queue_item.delete if current_user.queue_items.include?(queue_item)
+    normalize_queue_item_positions
     redirect_to my_queue_path
   end
 
@@ -46,7 +47,7 @@ class QueueItemsController < ApplicationController
     ActiveRecord::Base.transaction do
       params[:queue_items].each do |queue_item_data|
         queue_item = QueueItem.find(queue_item_data['id'])
-        queue_item.update_attributes!(position: queue_item_data['position'])   
+        queue_item.update_attributes!(position: queue_item_data['position']) if queue_item.user == current_user 
       end
     end
   end
