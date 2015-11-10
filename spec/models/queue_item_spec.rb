@@ -3,7 +3,7 @@ require 'spec_helper'
 describe QueueItem do
   it { should belong_to(:user) }
   it { should belong_to(:video) }
-
+  
   describe "#video_title" do
     it "returns the title of associated video" do
       wife = Fabricate(:video, title: "The Fierce Wife ")
