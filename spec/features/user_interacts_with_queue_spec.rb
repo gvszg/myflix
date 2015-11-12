@@ -8,38 +8,51 @@ feature "User interacts with the queue" do
     black_white = Fabricate(:video, title: "Black and White", category: comedies)
     
     sign_in
-    find("a[href='/videos/#{wife.id}']").click
-    expect(page).to have_content(wife.title)
 
-    click_link "+ My Queue"
-    expect(page).to have_content(wife.title)
+    add_video_to_queue(wife)
+    expect_video_to_be_in_queue(wife)
 
     visit video_path(wife)
-    expect(page).not_to have_content("+ My Queue")
+    expect_link_not_to_be_seen("+ My Queue")
 
+    add_video_to_queue(with_you)
+    add_video_to_queue(black_white)
+
+    set_video_position(wife, 3)
+    set_video_position(with_you, 1)
+    set_video_position(black_white, 2)
+    update_queue
+    
+    expect_video_position(wife, 3)
+    expect_video_position(with_you, 1)
+    expect_video_position(black_white, 2)
+  end
+
+  def expect_video_to_be_in_queue(video)
+    expect(page).to have_content(video.title)
+  end
+
+  def add_video_to_queue(video)
     visit home_path
-    find("a[href='/videos/#{with_you.id}']").click
+    find("a[href='/videos/#{video.id}']").click
     click_link "+ My Queue"
-    visit home_path
-    find("a[href='/videos/#{black_white.id}']").click
-    click_link "+ My Queue"
+  end
 
-    within(:xpath, "//tr[contains(.,'#{wife.title}')]") do
-      fill_in "queue_items[][position]", with: 3
-    end
+  def expect_link_not_to_be_seen(link_text)
+    expect(page).not_to have_content(link_text)  
+  end
 
-    within(:xpath, "//tr[contains(.,'#{with_you.title}')]") do
-      fill_in "queue_items[][position]", with: 1
-    end
-
-    within(:xpath, "//tr[contains(.,'#{black_white.title}')]") do
-      fill_in "queue_items[][position]", with: 2
-    end
-
+  def update_queue
     click_button "Update Instant Queue"
+  end
 
-    expect(find(:xpath, "//tr[contains(.,'#{wife.title}')]//input[@type='text']").value).to eq("3")
-    expect(find(:xpath, "//tr[contains(.,'#{with_you.title}')]//input[@type='text']").value).to eq("1")
-    expect(find(:xpath, "//tr[contains(.,'#{black_white.title}')]//input[@type='text']").value).to eq("2")
+  def set_video_position(video, position)
+    within(:xpath, "//tr[contains(.,'#{video.title}')]") do
+      fill_in "queue_items[][position]", with: position
+    end
+  end
+
+  def expect_video_position(video, position)
+    expect(find(:xpath, "//tr[contains(.,'#{video.title}')]//input[@type='text']").value).to eq(position.to_s)
   end
 end
