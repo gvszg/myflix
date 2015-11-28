@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
-  has_many :queue_items, -> { order("position") }
+  has_many :queue_items, -> { order(:position) }
   has_many :reviews, -> { order("created_at DESC") }
   has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_id
   has_many :leading_relationships, class_name: "Relationship", foreign_key: :leader_id
@@ -24,5 +24,13 @@ class User < ActiveRecord::Base
 
   def can_follows?(another_user)
     !(self.follows?(another_user) || self == another_user)
+  end
+
+  def queue_items_quantity
+    queue_items.count
+  end
+
+  def total_number_of_people_who_follow_me
+    leading_relationships.count
   end
 end

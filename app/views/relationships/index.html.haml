@@ -12,10 +12,10 @@
       - @relationships.each do |relationship|
         %tr
           %td
-            = image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(relationship.leader.email.downcase)}?s=40")
+            = image_tag gravatar_for(relationship.leader)
             = link_to relationship.leader.username, relationship.leader
-          %td.extra-padding= relationship.leader.queue_items.count
-          %td.extra-padding= relationship.leader.leading_relationships.count
+          %td.extra-padding= relationship.leader.queue_items_quantity
+          %td.extra-padding= relationship.leader.total_number_of_people_who_follow_me
           %td.extra-padding
             = link_to relationship, method: :delete do
               %i.glyphicon.glyphicon-remove

@@ -12,6 +12,7 @@ feature "User following" do
     click_link 'Follow'
     expect(page).to have_content(joe.username)
     unfollow(joe)
+    expect(page).not_to have_content(joe.username)
   end
 
   def unfollow(user)
