@@ -5,6 +5,8 @@ describe User do
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:username) }
   it { should validate_uniqueness_of(:email)}
+  it { should have_many(:reviews).order("created_at DESC") }
+  it { should have_many(:queue_items).order(:position) }
 
   describe "#queued_video" do
     it "returns true when the user queued the video" do
@@ -19,5 +21,21 @@ describe User do
       video = Fabricate(:video)
       expect(user.queued_video?(video)).to be_falsey
     end
-  end  
+  end
+
+  describe "#follows?" do
+    it "returns true if the user has a following relationship with another user" do
+      joe = Fabricate(:user)
+      emma = Fabricate(:user)
+      Fabricate(:relationship, leader: emma, follower: joe)
+      expect(joe.follows?(emma)).to be_truthy
+    end
+
+    it "returns false if the user does not have a following relationship with another user" do
+      joe = Fabricate(:user)
+      emma = Fabricate(:user)
+      Fabricate(:relationship, leader: joe, follower: emma)
+      expect(joe.follows?(emma)).to be_falsey
+    end
+  end
 end
