@@ -17,6 +17,7 @@ group :development do
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'letter_opener'
 end
 
 group :development, :test do
@@ -35,4 +36,3 @@ end
 group :production do
   gem 'rails_12factor'
 end
-
