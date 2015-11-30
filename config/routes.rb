@@ -9,6 +9,7 @@ Myflix::Application.routes.draw do
   get '/people', to: 'relationships#index'
   get '/forgot_password', to: 'forgot_passwords#new'
   get '/forgot_password_confirm', to: 'forgot_passwords#confirm'
+  get '/invalid_token', to: 'reset_passwords#invalid_token'
   resources :reset_passwords, only: [:show]
   resources :forgot_passwords, only: [:create]
   resources :relationships, only: [:create, :destroy]
