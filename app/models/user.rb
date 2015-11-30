@@ -36,8 +36,6 @@ class User < ActiveRecord::Base
     leading_relationships.count
   end
 
-  private
-
   def generate_token
     self.token = SecureRandom.urlsafe_base64
   end
