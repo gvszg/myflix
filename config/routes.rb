@@ -8,7 +8,8 @@ Myflix::Application.routes.draw do
   delete '/sign_out', to: 'sessions#destroy'
   get '/people', to: 'relationships#index'
   get '/forgot_password', to: 'forgot_passwords#new'
-  get '/confirm_password_reset', to: 'confirm_passwords#reset'
+  get '/forgot_password_confirm', to: 'forgot_passwords#confirm'
+  resources :reset_passwords, only: [:show]
   resources :forgot_passwords, only: [:create]
   resources :relationships, only: [:create, :destroy]
   resources :users, only: [:create, :show]
