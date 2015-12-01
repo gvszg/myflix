@@ -24,30 +24,26 @@ describe ResetPasswordsController do
 
   describe "POST create" do
     context "with valid token" do
-      it "redirects to the sign in page" do
-        alice = Fabricate(:user, password: 'old_password')
-        alice.update_column(:token, '12345')
+      let(:alice) { Fabricate(:user, password: 'old_password') }
+
+      before { alice.update_column(:token, '12345') }
+
+      it "redirects to the sign in page" do              
         post :create, token: '12345', password: 'new_password'
         expect(response).to redirect_to sign_in_path
       end
 
-      it "updates the user's password" do
-        alice = Fabricate(:user, password: 'old_password')
-        alice.update_column(:token, '12345')
+      it "updates the user's password" do      
         post :create, token: '12345', password: 'new_password'
         expect(alice.reload.authenticate('new_password')).to be_truthy  
       end
 
-      it "sets the success message" do
-        alice = Fabricate(:user, password: 'old_password')
-        alice.update_column(:token, '12345')
+      it "sets the success message" do      
         post :create, token: '12345', password: 'new_password'
         expect(flash[:success]).to be_present
       end
 
-      it "regenerates the user's token" do
-        alice = Fabricate(:user, password: 'old_password')
-        alice.update_column(:token, '12345')
+      it "regenerates the user's token" do    
         post :create, token: '12345', password: 'new_password'
         expect(alice.reload.token).not_to eq('12345') 
       end

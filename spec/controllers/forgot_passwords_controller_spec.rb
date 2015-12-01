@@ -18,7 +18,7 @@ describe ForgotPasswordsController do
       it "redirects to password confirmation page" do
         Fabricate(:user, email: 'joe@example.com')
         post :create, email: 'joe@example.com'
-        expect(response).to redirect_to confirm_password_reset_path
+        expect(response).to redirect_to forgot_password_confirm_path
       end
 
       it "sends out an email to the email address" do
