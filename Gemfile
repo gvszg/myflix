@@ -10,19 +10,21 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
-gem 'fabrication'
-gem 'faker'
+gem 'figaro'
 
 group :development do
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'letter_opener'
 end
 
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
   gem 'rspec-rails', '2.99'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :test do
@@ -35,4 +37,3 @@ end
 group :production do
   gem 'rails_12factor'
 end
-
