@@ -14,12 +14,24 @@ describe UsersController do
         post :create, user: Fabricate.attributes_for(:user)
       end
 
+      after { ActionMailer::Base.deliveries.clear }
+
       it "creates user " do
         expect(User.count).to eq(1)
       end
 
       it "redirects to sign_in_path" do
         expect(response).to redirect_to sign_in_path
+      end
+
+      it "sends out email to the user with valid inputs" do
+        post :create, user: { email: 'joe@example.com', password: 'password', username: 'Joe Smith' }
+        expect(ActionMailer::Base.deliveries.last.to).to eq(['joe@example.com'])
+      end
+
+      it "sends out email containing the user's name with valid inputs" do
+        post :create, user: { email: 'joe@example.com', password: 'password', username: 'Joe Smith' }
+        expect(ActionMailer::Base.deliveries.last.body).to include('Joe Smith')
       end
     end
 
@@ -36,27 +48,13 @@ describe UsersController do
         expect(response).to render_template :new
       end
 
-      it "sets @user" do      
-        expect(assigns(:user)).to be_instance_of(User) 
-      end
-    end
-
-    context "sending emails" do
-      after { ActionMailer::Base.deliveries.clear }
-
-      it "sends out email to the user with valid inputs" do
-        post :create, user: { email: 'joe@example.com', password: 'password', username: 'Joe Smith' }
-        expect(ActionMailer::Base.deliveries.last.to).to eq(['joe@example.com'])
-      end
-
-      it "sends out email containing the user's name with valid inputs" do
-        post :create, user: { email: 'joe@example.com', password: 'password', username: 'Joe Smith' }
-        expect(ActionMailer::Base.deliveries.last.body).to include('Joe Smith')
-      end
-
       it "deos not send out email to the user with invalid inputs" do
         post :create, user: { email: 'joe@example.com' }
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      it "sets @user" do      
+        expect(assigns(:user)).to be_instance_of(User) 
       end
     end
   end
