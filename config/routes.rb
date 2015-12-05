@@ -42,9 +42,9 @@ Myflix::Application.routes.draw do
   resources :forgot_passwords, only: [:create]
 
   #reset password
-  get '/invalid_token', to: 'reset_passwords#invalid_token'
+  get '/invalid_token', to: 'pages#invalid_token'
   resources :reset_passwords, only: [:show, :create]
   
   # invitation
-  resources :invitations, only: [:new, :create]  
+  resources :invitations, only: [:new, :create]
 end
