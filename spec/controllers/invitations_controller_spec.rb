@@ -13,4 +13,64 @@ describe InvitationsController do
       let(:action) { get :new }
     end
   end
+
+  describe "POST create" do
+    it_behaves_like "requires sign in" do
+      let(:action) { post :create }
+    end
+
+    context "with valid inputs" do
+      before { set_current_user }
+      after { ActionMailer::Base.deliveries.clear }
+
+      it "redirects to the invitation new page" do
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Join us!"}
+        expect(response).to redirect_to new_invitation_path
+      end
+
+      it "creates an invitation" do        
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Join us!"}
+        expect(Invitation.count).to eq(1)
+      end
+
+      it "sends out an email to the recipient" do
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Join us!"}
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["joe@example.com"])
+      end
+
+      it "sets the success message" do
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Join us!"}
+        expect(flash[:success]).to be_present
+      end
+    end
+
+    context "with invalid inputs" do
+      before { set_current_user }
+
+      it "renders the new template" do
+        post :create, invitation: { recipient_email: "joe@example.com", message: "Join us!" }
+        expect(response).to render_template :new
+      end
+
+      it "does not create an invitation" do
+        post :create, invitation: { recipient_email: "joe@example.com", message: "Join us!" }
+        expect(Invitation.count).to eq(0)
+      end
+
+      it "does not send out an email" do
+        post :create, invitation: { recipient_email: "joe@example.com", message: "Join us!" }
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      it "sets error message" do
+        post :create, invitation: { recipient_email: "joe@example.com", message: "Join us!" }
+        expect(flash[:danger]).to be_present
+      end
+
+      it "sets @invitation" do
+        post :create, invitation: { recipient_email: "joe@example.com", message: "Join us!" }
+        expect(assigns(:invitation)).to be_present
+      end
+    end
+  end
 end
