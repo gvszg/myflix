@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
 gem 'figaro'
+gem 'bootstrap_form'
 
 group :development do
   gem 'thin'

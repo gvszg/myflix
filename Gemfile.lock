@@ -37,6 +37,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
+    bootstrap_form (2.3.0)
     builder (3.2.2)
     capybara (2.5.0)
       mime-types (>= 1.16)
@@ -185,6 +186,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  bootstrap_form
   capybara
   capybara-email
   coffee-rails
