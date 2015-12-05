@@ -13,7 +13,7 @@ deployment:
   staging:
     branch: staging
     commands:
-      - heroku maintenance:on --app myflix
-      - git push git@heroku.com:myflix.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app myflix
-      - heroku maintenance:off --app myflix
+      - heroku maintenance:on --app stagingmyflix
+      - git push git@heroku.com:stagingmyflix.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app stagingmyflix
+      - heroku maintenance:off --app stagingmyflix
