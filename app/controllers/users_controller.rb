@@ -6,6 +6,16 @@ class UsersController < ApplicationController
     @user = User.new   
   end
 
+  def new_with_invitation_token
+    invitation = Invitation.find_by(token: params[:token])
+    if invitation
+      @user = User.new(email: invitation.recipient_email)
+      render :new
+    else
+      redirect_to invalid_token_path
+    end
+  end
+
   def create
     @user = User.new(user_params)
 

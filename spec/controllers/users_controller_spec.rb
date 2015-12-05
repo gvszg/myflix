@@ -71,4 +71,24 @@ describe UsersController do
       expect(assigns(:user)).to eq(joe)
     end
   end
+
+  describe "GET new_with_invitation_token" do
+    it "renders the new view template" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(response).to render_template :new
+    end
+
+    it "sets @user with recipient's name" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:user).email).to eq(invitation.recipient_email)
+    end
+
+    it "redirects to expired token page for invalid tokens" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: '123asd'
+      expect(response).to redirect_to invalid_token_path
+    end
+  end
 end
