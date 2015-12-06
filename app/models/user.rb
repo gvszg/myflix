@@ -8,8 +8,6 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :password, :username
   validates_uniqueness_of :email
 
-  before_create :generate_token
-
   def normalize_queue_item_positions
     queue_items.each_with_index do |queue_item, index|
       queue_item.update_attributes(position: index+1)
@@ -41,6 +39,10 @@ class User < ActiveRecord::Base
   end
 
   def generate_token
-    self.token = SecureRandom.urlsafe_base64
+    self.update_column(:token, SecureRandom.urlsafe_base64)
+  end
+
+  def clear_token
+    self.update_column(:token, nil)
   end
 end
