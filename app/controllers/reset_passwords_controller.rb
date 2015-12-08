@@ -29,7 +29,7 @@ class ResetPasswordsController < ApplicationController
       redirect_to sign_in_path
     else
       flash[:danger] = "Password cannot be blank!"
-      redirect_to "/reset_passwords/#{user.token}"
-    end    
+      redirect_to reset_password_path(user.token)
+    end
   end
 end
