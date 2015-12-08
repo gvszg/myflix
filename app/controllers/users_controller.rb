@@ -42,10 +42,9 @@ class UsersController < ApplicationController
 
   def handle_invitation
     if params[:invitation_token].present?
-    invitation = Invitation.find_by(token: params[:invitation_token]) 
-    @user.follow(invitation.inviter)
-    invitation.inviter.follow(@user)
-    invitation.update_column(:token, nil)
+      invitation = Invitation.find_by(token: params[:invitation_token]) 
+      @user.follow(invitation.inviter)
+      invitation.inviter_follow_user(@user)    
     end   
   end
 end
