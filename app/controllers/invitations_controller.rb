@@ -21,6 +21,6 @@ class InvitationsController < ApplicationController
   private
 
   def invitation_params
-    params.require(:invitation).permit(:recipient_name, :recipient_email, :message).merge!(inviter_id: current_user.id)
+    params.require(:invitation).permit(:recipient_name, :recipient_email, :message).merge!(inviter: current_user)
   end
 end

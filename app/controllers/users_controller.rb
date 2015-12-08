@@ -35,16 +35,17 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
     params.require(:user).permit(:email, :password, :username)
   end
 
   def handle_invitation
     if params[:invitation_token].present?
-      invitation = Invitation.find_by(token: params[:invitation_token])
-      @user.follow(invitation.inviter)
-      invitation.inviter.follow(@user)
-      invitation.update_column(:token, nil)
-    end
+    invitation = Invitation.find_by(token: params[:invitation_token]) 
+    @user.follow(invitation.inviter)
+    invitation.inviter.follow(@user)
+    invitation.update_column(:token, nil)
+    end   
   end
 end
