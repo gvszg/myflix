@@ -21,6 +21,12 @@ describe ForgotPasswordsController do
         expect(response).to redirect_to forgot_password_confirm_path
       end
 
+      it "generates new token for the user" do
+        joe = Fabricate(:user, email: 'joe@example.com')
+        post :create, email: 'joe@example.com'
+        expect(joe.reload.token).to be_present
+      end
+
       it "sends out an email to the email address" do
         Fabricate(:user, email: 'joe@example.com')
         post :create, email: 'joe@example.com'
