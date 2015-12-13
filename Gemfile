@@ -44,3 +44,7 @@ end
 group :production do
   gem 'rails_12factor'
 end
+
+group :staging do
+  gem 'rails_12factor'
+end
