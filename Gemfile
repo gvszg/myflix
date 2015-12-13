@@ -14,6 +14,9 @@ gem 'figaro'
 gem 'bootstrap_form'
 gem 'sidekiq'
 gem 'puma'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'carrierwave-aws'
 
 group :development do
   gem 'thin'
