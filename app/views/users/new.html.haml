@@ -20,4 +20,4 @@
           = hidden_field_tag :invitation_token, @invitation_token
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
-            = f.submit("Sign Up", class: "btn btn-default")
+            %script(src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{ENV['STRIPE_PUBLISHABLE_KEY']}" data-amount="999" data-name="MyFlix Sign Up Charge" data-description="$9.99 to sign up the best video service")
