@@ -21,7 +21,7 @@
             = f.label :rating, "Rate this video"
             .row
               .col-sm-3
-                = f.select :rating, render_options_for_select, class: "form-control"                
+                = f.select :rating, render_options_for_select, {prompt: 'Select Your Rating'}, class: "form-control"
           .form-group
             = f.label :content, "Write Review"
             .row
