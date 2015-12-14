@@ -14,6 +14,9 @@ gem 'figaro'
 gem 'bootstrap_form'
 gem 'sidekiq'
 gem 'puma'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'carrierwave-aws'
 
 group :development do
   gem 'thin'
@@ -39,5 +42,9 @@ group :test do
 end
 
 group :production do
+  gem 'rails_12factor'
+end
+
+group :staging do
   gem 'rails_12factor'
 end
