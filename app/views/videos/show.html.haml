@@ -3,7 +3,7 @@
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
         - if params[:watch]
-          = video_tag "#{@video.video_url}", type: "video/mp4", size: "665x375", controls: true, autoplay: true
+          = video_tag @video.video_url, type: "video/mp4", size: "665x375", controls: true, autoplay: true
         - else
           = image_tag @video.large_cover_url
       .video_info.col-sm-3

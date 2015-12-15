@@ -18,8 +18,10 @@ feature "Admin adds new video" do
     sign_out
     sign_in
 
-    visit video_path(Video.first)
+    visit video_path(Video.first)    
     expect(page).to have_selector("img[src='/uploads/monk_large.jpg']")
-    expect(page).to have_selector("a[href='http://www.example.com/video.mp4']")
+
+    click_link "Watch Now"
+    expect(page).to have_selector("video[src='http://www.example.com/video.mp4']")
   end
 end
