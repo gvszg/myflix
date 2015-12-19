@@ -22,8 +22,10 @@ ActiveRecord::Migration.maintain_test_schema!
 
 Sidekiq::Testing.inline!
 
+Capybara.server_port = 52662
+
 VCR.configure do |c|
-  c.cassette_library_dir = 'vcr_cassettes'
+  c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
   c.configure_rspec_metadata!
   c.ignore_localhost = true
