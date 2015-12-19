@@ -40,12 +40,10 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'capybara-email'
+  gem 'vcr'
+  gem 'webmock'
 end
 
-group :production do
-  gem 'rails_12factor'
-end
-
-group :staging do
+group :production, :staging do
   gem 'rails_12factor'
 end
