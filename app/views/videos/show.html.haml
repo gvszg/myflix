@@ -2,14 +2,17 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        = image_tag @video.large_cover_url
+        - if params[:watch]
+          = video_tag @video.video_url, type: "video/mp4", size: "665x375", controls: true, autoplay: true
+        - else
+          = image_tag @video.large_cover_url
       .video_info.col-sm-3
         %header
           %h3= @video.title
           %span Rating: 4.5/5.0
         %p= @video.description
         .actions
-          = link_to "Watch Now", @video.video_url, class: 'btn btn-primary'
+          = link_to "Watch Now", video_path(@video, watch: true), class: 'btn btn-primary'
           = link_to '+ My Queue', queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' unless current_user.queued_video?(@video)
 
 %section.reviews.container
