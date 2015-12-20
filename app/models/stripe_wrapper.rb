@@ -1,8 +1,10 @@
 module StripeWrapper
   class Charge
-    def initialize(response, error_message)
-      @response = response
-      @error_message = error_message
+    attr_reader :response, :error_message
+
+    def initialize(options={})
+      @response = options[:response]
+      @error_message = options[:error_message]
     end
 
     def self.create(options={})
@@ -13,18 +15,14 @@ module StripeWrapper
           source: options[:source],
           description: options[:description]
         )
-        new(response, nil)
+        new(response: response)
       rescue Stripe::CardError => e
-        new(nil, e.message)
+        new(error_message: e.message)
       end
     end
 
     def successful?
-      @response.present?
-    end
-
-    def error_message
-      @error_message
+      response.present?
     end
   end
 end
