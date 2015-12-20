@@ -10,7 +10,10 @@ describe UsersController do
 
   describe "Post create" do
     context "with valid personal info and valid card" do
-      before { StripeWrapper::Charge.stub(:create) }
+      let(:charge) { double(:charge, successful?: true) }
+
+      before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+
       after { ActionMailer::Base.deliveries.clear }
 
       it "creates user " do        
@@ -59,7 +62,8 @@ describe UsersController do
 
     context "with valid personal info and declined card" do      
       let(:charge) { double(:charge, successful?: false, error_message: "Your card was declined.") }
-      before { StripeWrapper::Charge.stub(:create).and_return(charge) }
+
+      before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
 
       it "does not create a new user" do
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
@@ -99,7 +103,9 @@ describe UsersController do
         expect(assigns(:user)).to be_instance_of(User) 
       end
 
-      it "does not charge the card"
+      it "does not charge the card" do
+        StripeWrapper::Charge.should_not_receive(:create)        
+      end
     end # end context
   end # Post create end
 
