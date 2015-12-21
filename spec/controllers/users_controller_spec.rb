@@ -16,7 +16,7 @@ describe UsersController do
 
       after { ActionMailer::Base.deliveries.clear }
 
-      it "creates user " do        
+      it "creates user " do
         post :create, user: Fabricate.attributes_for(:user)
         expect(User.count).to eq(1)
       end
