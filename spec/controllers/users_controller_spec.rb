@@ -6,10 +6,14 @@ describe UsersController do
       get :new
       expect(assigns(:user)).to be_instance_of(User)
     end
-  end
+  end # Get new end
 
   describe "Post create" do
-    context "with valid input" do
+    context "with valid personal info and valid card" do
+      let(:charge) { double(:charge, successful?: true) }
+
+      before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+
       after { ActionMailer::Base.deliveries.clear }
 
       it "creates user " do
@@ -54,9 +58,30 @@ describe UsersController do
         post :create, user: { email: 'joe@example.com', password: 'password', username: 'Joe Smith' }, invitation_token: invitation.token
         expect(Invitation.first.token).to be_nil
       end
-    end
+    end # end context
 
-    context "with invalid input" do
+    context "with valid personal info and declined card" do      
+      let(:charge) { double(:charge, successful?: false, error_message: "Your card was declined.") }
+
+      before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+
+      it "does not create a new user" do
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
+        expect(User.count).to eq(0)
+      end
+
+      it "render the new template" do
+       post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
+        expect(response).to render_template :new
+      end
+
+      it "sets the flash error message" do
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
+        expect(flash[:danger]).to be_present
+      end
+    end # end context
+
+    context "with invalid personal info" do
       before do
         post :create, user: { username: "Jam", password: "istrue" }
       end
@@ -77,8 +102,12 @@ describe UsersController do
       it "sets @user" do      
         expect(assigns(:user)).to be_instance_of(User) 
       end
-    end
-  end
+
+      it "does not charge the card" do
+        StripeWrapper::Charge.should_not_receive(:create)        
+      end
+    end # end context
+  end # Post create end
 
   describe "GET show" do
     it_behaves_like "requires sign in" do
@@ -91,7 +120,7 @@ describe UsersController do
       get :show, id: joe.id
       expect(assigns(:user)).to eq(joe)
     end
-  end
+  end # Get show end
 
   describe "GET new_with_invitation_token" do
     it "renders the new view template" do
@@ -117,5 +146,5 @@ describe UsersController do
       get :new_with_invitation_token, token: '123asd'
       expect(response).to redirect_to invalid_token_path
     end
-  end
+  end # GET new_with_invitation_token end
 end
