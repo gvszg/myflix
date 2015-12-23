@@ -10,15 +10,11 @@
         %header
           %h3= @video.title
           %span Rating:
-          - if @video.rating
-            = "#{@video.rating}/5.0"
-          - else
-            N/A
+          = @video.rating
         %p= @video.description
         .actions
           = link_to "Watch Now", video_path(@video, watch: true), class: 'btn btn-primary'
           = link_to '+ My Queue', queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' unless current_user.queued_video?(@video)
-
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
@@ -37,7 +33,6 @@
         %fieldset.form-group.actions.clearfix
           %input(type="submit" value="Submit" class="btn")
           = link_to "Cancel", @video
-
       %header
         %h3 User Reviews (#{@reviews.count})
       %ul
