@@ -17,10 +17,10 @@ class UserSignup
         @user.save
         handle_invitation(invitation_token)
         AppMailer.delay.send_welcome_email(@user)
-        @status == :success
+        @status = :success
         self
       else
-        @status == :failed
+        @status = :failed
         @error_message = charge.error_message
         self
       end
