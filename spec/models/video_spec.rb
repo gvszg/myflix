@@ -42,5 +42,18 @@ describe Video do
       expect(Video.search_by_title("")).to eq([])
     end
   end
-end
 
+  describe "#rating" do
+    let(:video) { Fabricate(:video) }
+
+    it "returns the average float rating if ratings exist" do
+      review1 = Fabricate(:review, rating: 2, video: video)
+      review2 = Fabricate(:review, rating: 5, video: video)
+      expect(video.rating).to eq(3.5)
+    end
+
+    it "returns N/A if rating does not exist" do
+      expect(video.rating).to be_nil
+    end
+  end
+end
