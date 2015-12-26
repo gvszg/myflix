@@ -12,7 +12,7 @@ describe UsersController do
     context "successful user sign up" do
       it "redirects to sign_in_path" do
         result = double(:sign_up_result, successful?: true)
-        UserSignup.any_instance.should_receive(:sign_up).and_return(result)        
+        expect_any_instance_of(UserSignup).to receive(:sign_up).and_return(result)
         post :create, user: Fabricate.attributes_for(:user)
         expect(response).to redirect_to sign_in_path
       end          
@@ -20,15 +20,15 @@ describe UsersController do
 
     context "failed user signup" do
       it "render the new template" do
-        result = double(:sign_up_result, successful?: false, error_message: "Some error")  
-        UserSignup.any_instance.should_receive(:sign_up).and_return(result) 
+        result = double(:sign_up_result, successful?: false, error_message: "Some error")
+        expect_any_instance_of(UserSignup).to receive(:sign_up).and_return(result)
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
         expect(response).to render_template :new
       end
 
       it "sets the flash error message" do
         result = double(:sign_up_result, successful?: false, error_message: "Some error")
-        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        expect_any_instance_of(UserSignup).to receive(:sign_up).and_return(result)
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '1223'
         expect(flash[:danger]).to eq("Some error")
       end

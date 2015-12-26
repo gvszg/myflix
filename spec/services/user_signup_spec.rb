@@ -10,7 +10,7 @@ describe UserSignup do
       after { ActionMailer::Base.deliveries.clear }
 
       it "creates user " do
-        UserSignup.new(Fabricate.build(:user)).sign_up("stripe_token", nil)
+        UserSignup.new(Fabricate.build(:user)).sign_up("stripe_token")
         expect(User.count).to eq(1)
       end
 
@@ -40,12 +40,12 @@ describe UserSignup do
       end
 
       it "sends out email to the user with valid inputs" do
-        UserSignup.new(Fabricate.build(:user, email: 'joe@example.com')).sign_up("stripe_token", nil)
+        UserSignup.new(Fabricate.build(:user, email: 'joe@example.com')).sign_up("stripe_token")
         expect(ActionMailer::Base.deliveries.last.to).to eq(['joe@example.com'])
       end
 
       it "sends out email containing the user's name with valid inputs" do
-        UserSignup.new(Fabricate.build(:user, email: 'joe@example.com', username: 'Joe Smith')).sign_up("stripe_token", nil)
+        UserSignup.new(Fabricate.build(:user, email: 'joe@example.com', username: 'Joe Smith')).sign_up("stripe_token")
         expect(ActionMailer::Base.deliveries.last.body).to include('Joe Smith')
       end
     end # end context
@@ -56,7 +56,7 @@ describe UserSignup do
       before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
 
       it "does not create a new user" do
-        UserSignup.new(Fabricate.build(:user)).sign_up("stripe_token", nil)
+        UserSignup.new(Fabricate.build(:user)).sign_up("stripe_token")
         expect(User.count).to eq(0)
       end            
     end # end context
