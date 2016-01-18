@@ -17,4 +17,11 @@
                 = password_field_tag :password, nil, class: "form-control"
         %fieldset.form-group.action
           = submit_tag("Sign in", class: "btn btn-default")
-          = link_to 'Forgot Password?', forgot_password_path
+          = link_to 'Forgot Password?',forgot_password_path
+    
+    .space.col-xs-12
+      Or
+    .have-no-account
+      %h3 Not Have Account Yet?
+      %br
+      = link_to 'Register Here!', register_path, class: "btn btn-primary btn-block btn-lg"

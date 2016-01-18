@@ -1,12 +1,25 @@
 section.site_title
-  background: #f7f7f7
+  background: #0f0f0f url("/tmp/movie_night.jpg") no-repeat center
   padding: 100px 215px
+  height: 780px
   h1
-    font-size: 32px
+    font-size: 42px
+    color: bisque
     margin-bottom: 30px
-  p.sign_up
-    font-size: 24px
+    margin-top: -50px
+    margin-left: -50px
+  p.sign_in
+    color: cornsilk
+    font-size: 30px
     margin-bottom: 30px
+    margin-left: -50px
+  a
+    color: rgb(250, 255, 59)    
+    font-size: 1.2em
+  a:hover
+    font-family: Lobster
+    color: #fff
+    text-decoration: none
 
 section.register, section.sign_in, section.reset_password
   form
@@ -24,6 +37,25 @@ section.register
       padding-top: 20px
       select#date_month
         margin-right: 25px
+    fieldset.actions
+      a
+        padding-left: 15px
+        text-decoration: none
+        font-size: 1.2em
+
+section.sign_in
+  .row
+    position: relative
+  .space
+    position: absolute
+    font-size: 24px
+    left: 500px
+    top: 130px
+  .have-no-account
+    position: absolute    
+    font-size: 1.6em
+    right: 300px
+    top: 80px
 
 section.forgot_password
   background: #f7f7f7
