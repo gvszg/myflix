@@ -12,4 +12,17 @@ class VideoDecorator < Draper::Decorator
       h.image_tag(object.large_cover_url)
     end
   end
+
+  def star_whole
+    object.rating.nil? ? 0 : object.rating.floor
+  end
+
+  def with_half
+    object.rating.ceil > object.rating.floor ? "-half" : "" if object.rating  
+  end
 end
+
+
+
+# @video.rating.nil? ? 0 : @video.rating.floor
+# @video.rating.ceil > @video.rating.floor ? "-half" : "" if @video.rating
